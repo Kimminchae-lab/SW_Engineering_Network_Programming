@@ -5,22 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_Navigation"
+        android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:itemBackground="@android:color/white"
         app:itemIconTint="#000000"
         app:itemTextColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/bottom_navigation"
+        app:menu="@menu/navigation_items"
         tools:layout_editor_absoluteX="16dp" />
 
     <FrameLayout
-        android:id="@+id/Main_Frame"
+        android:id="@+id/frame"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_Navigation"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
