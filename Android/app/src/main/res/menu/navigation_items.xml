@@ -1,4 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/home"
+        android:title="home" />
+
+    <item
+        android:id="@+id/focus"
+        android:icon="@drawable/focus"
+        android:title="focus" />
+
+    <item
+        android:id="@+id/device"
+        android:icon="@drawable/device"
+        android:title="device" />
+
+    <item
+        android:id="@+id/nosleep"
+        android:icon="@drawable/nosleep"
+        android:title="nosleep" />
+
+    <item
+        android:id="@+id/time"
+        android:icon="@drawable/time"
+        android:title="time" />
 
 </menu>
