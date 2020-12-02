@@ -1,7 +1,8 @@
-package com.example.wakeup
+package com.example.wakeup.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.wakeup.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

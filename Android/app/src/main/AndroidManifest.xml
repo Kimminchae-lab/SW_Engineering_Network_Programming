@@ -9,6 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Wakeup">
+        <activity
+            android:name=".navigation.concentrate"
+            android:label="@string/title_activity_concentrate"
+            android:theme="@style/Theme.Wakeup.NoActionBar"></activity>
+        <activity
+            android:name=".activities.Prevent_drowsiness"
+            android:label="@string/title_activity_prevent_drowsiness"
+            android:theme="@style/Theme.Wakeup.NoActionBar" />
         <activity android:name=".activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,9 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainActivity">
-
-        </activity>
+        <activity android:name=".activities.MainActivity" />
     </application>
 
 </manifest>
