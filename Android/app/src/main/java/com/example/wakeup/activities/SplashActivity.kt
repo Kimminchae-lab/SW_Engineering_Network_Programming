@@ -16,9 +16,9 @@ class SplashActivity : AppCompatActivity() {
     // 앱 실행 후 2초 뒤에 MainActivity로 전환
     private fun startLoading() {
         Handler().postDelayed({
-            val intent = Intent(this,MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }, 2000)
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent) // MainActivity로 화면 전환
+            finish() // 꼭 finish()를 해줘야 함
+        }, 2000) // 2초 후
     }
 }
