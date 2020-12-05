@@ -9,6 +9,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Focus" />
+        android:text="백색 소음/ASMR/목표 설정/목표 현황" />
 
 </FrameLayout>

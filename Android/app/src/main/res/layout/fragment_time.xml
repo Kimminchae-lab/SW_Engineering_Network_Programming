@@ -9,6 +9,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Time" />
+        android:text="시간 기록, 목표 설정, 유저간 현황 공유, 순위 공유" />
 
 </FrameLayout>

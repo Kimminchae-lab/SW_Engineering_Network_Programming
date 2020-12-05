@@ -9,6 +9,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="No Sleep" />
+        android:text="졸음 인식, 알람, 졸음 방지 솔루션, 동기 부여" />
 
 </FrameLayout>
