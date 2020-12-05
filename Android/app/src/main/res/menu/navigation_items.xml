@@ -25,4 +25,9 @@
         android:icon="@drawable/time"
         android:title="time" />
 
+    <item
+        android:id="@+id/setting"
+        android:icon="@drawable/settings"
+        android:title="setting"/>
+
 </menu>

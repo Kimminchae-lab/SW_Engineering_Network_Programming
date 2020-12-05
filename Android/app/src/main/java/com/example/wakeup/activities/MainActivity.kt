@@ -44,6 +44,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 transaction.commit()
                 return true
             }
+            R.id.setting -> {
+                val transaction = supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.frame, SettingFragment())
+                transaction.commit()
+                return true
+            }
         }
         return false
     }
