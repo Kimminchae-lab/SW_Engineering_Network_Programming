@@ -63,6 +63,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         navigation.setOnNavigationItemSelectedListener(this)
     }
 
+    // region 두 번 누르면 종료
     private var lastTimeBackPressed: Long = 0
     override fun onBackPressed() {
         if (System.currentTimeMillis() - lastTimeBackPressed >= 1500) {
@@ -72,14 +73,17 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             finish()
         }
     }
+    // endregion
 
+    // region 옵션메뉴 보이게!
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu, menu)
         return true
     }
+    // endregion
 
-
+    // region 메뉴 아이템 선택 시
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.myInfo -> {
@@ -93,4 +97,5 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
         return super.onOptionsItemSelected(item)
     }
+    // endregion
 }
