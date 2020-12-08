@@ -1,5 +1,6 @@
 package com.example.wakeup.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -85,14 +86,17 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     // region 메뉴 아이템 선택 시
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val intent: Intent
         when (item.itemId) {
             R.id.myInfo -> {
-                Toast.makeText(this, "첫번째", Toast.LENGTH_SHORT).show()
-                return true
+                intent = Intent(this, MyInfoActivity::class.java)
+                startActivity(intent) // MyInfoActivity로 화면 전환
+                finish() // 꼭 finish()를 해줘야 함
             }
             R.id.settings -> {
-                Toast.makeText(this, "두번째", Toast.LENGTH_SHORT).show()
-                return true
+                intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent) // SettingsActivity로 화면 전환
+                finish() // 꼭 finish()를 해줘야 함
             }
         }
         return super.onOptionsItemSelected(item)
