@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.view.WindowManager
 import androidx.core.view.isVisible
 import com.example.wakeup.R
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -16,6 +17,13 @@ class SplashActivity : AppCompatActivity() {
         // region hide actionBar
         val actionBar = supportActionBar
         actionBar?.hide()
+        // endregion
+
+        // region hide titleBar(fullScreen)
+        window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
         // endregion
 
         startLoading()
