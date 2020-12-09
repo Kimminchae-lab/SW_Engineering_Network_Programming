@@ -5,12 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.wakeup.R
 import kotlinx.android.synthetic.main.activity_settings.*
+import kotlin.math.log
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-
+        
         btn.setOnClickListener {
             intent = Intent(this, MainActivity::class.java)
             startActivity(intent) // MainActivity로 화면 전환
