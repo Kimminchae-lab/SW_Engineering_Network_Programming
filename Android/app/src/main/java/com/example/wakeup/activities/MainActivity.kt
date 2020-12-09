@@ -107,13 +107,21 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
     // endregion
 
-    //region Focus Fragment에서 사용 할 특수 키 이벤트 핸들링
+    //region FocusFragment에서 사용 할 특수 키 이벤트 핸들링
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        when(keyCode){
-            KeyEvent.KEYCODE_BACK -> { Log.d("LogTest", "Back Key Down"); return false }
-            KeyEvent.KEYCODE_HOME -> { Log.d("LogTest", "Home Key Down"); return false }
-            KeyEvent.KEYCODE_MENU -> { Log.d("LogTest", "Menu Key Pressed"); return false }
-            KeyEvent.KEYCODE_APP_SWITCH -> { Log.d("LogTest", "OverView Key Pressed"); return false }
+        when (keyCode) {
+            KeyEvent.KEYCODE_BACK -> {
+                Log.d("LogTest", "Back Key Down"); return false
+            }
+            KeyEvent.KEYCODE_HOME -> {
+                Log.d("LogTest", "Home Key Down"); return false
+            }
+            KeyEvent.KEYCODE_MENU -> {
+                Log.d("LogTest", "Menu Key Pressed"); return false
+            }
+            KeyEvent.KEYCODE_APP_SWITCH -> {
+                Log.d("LogTest", "OverView Key Pressed"); return false
+            }
         }
         return super.onKeyDown(keyCode, event)
     }
