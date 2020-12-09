@@ -2,8 +2,6 @@ package com.example.wakeup.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -78,7 +76,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
     // endregion
 
-
     // region 옵션메뉴 보이게!
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
@@ -86,7 +83,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return true
     }
     // endregion
-
 
     // region 메뉴 아이템 선택 시
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -106,20 +102,4 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return super.onOptionsItemSelected(item)
     }
     // endregion
-
-    //region Focus Fragment에서 사용 할 특수 키 이벤트 핸들링
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        when(keyCode){
-            KeyEvent.KEYCODE_BACK -> { Log.d("LogTest", "Back Key Down"); return false }
-            KeyEvent.KEYCODE_HOME -> { Log.d("LogTest", "Home Key Down"); return false }
-            KeyEvent.KEYCODE_MENU -> { Log.d("LogTest", "Menu Key Pressed"); return false }
-            KeyEvent.KEYCODE_APP_SWITCH -> { Log.d("LogTest", "OverView Key Pressed"); return false }
-        }
-        return super.onKeyDown(keyCode, event)
-    }
-
-    override fun onUserLeaveHint() {
-        super.onUserLeaveHint()
-        Log.d("LogTest", "Home Key Pressed")
-    }
 }

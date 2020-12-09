@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,59 +7,8 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="백색 소음/ASMR/목표 설정/목표 현황" />
 
-    <Button
-        android:id="@+id/button_Focus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="144dp"
-        android:text="앱 사용 제어 "
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.github.clans.fab.FloatingActionMenu
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|bottom"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:menu_colorNormal="#FF8000"
-        >
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_Item1"
-            android:layout_width="wrap_content"
-            android:layout_height="37dp"
-            android:layout_gravity="bottom|end"
-            android:layout_marginRight="15sp"
-            android:layout_marginBottom="160dp"
-            android:src="@drawable/baseline_headset_black_18dp"
-            android:visibility="invisible"
-            app:fab_colorNormal="#FFFFFF"
-            app:elevation="6dp"
-            app:fab_label="비 소리 ASMR" />
-
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_Item2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginRight="15sp"
-            android:layout_marginBottom="90dp"
-            android:src="@drawable/baseline_headset_black_18dp"
-            android:visibility="invisible"
-            app:fab_colorNormal="#FFFFFF"
-            app:elevation="6dp"
-            app:fab_label="6Hz 세타파" />
-
-
-    </com.github.clans.fab.FloatingActionMenu>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
