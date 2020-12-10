@@ -68,12 +68,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         navigation.setOnNavigationItemSelectedListener(this)
 
-        loginButton.setOnClickListener {
+        /* loginButton.setOnClickListener {
             handleLoginDialog()
         }
         signInButton.setOnClickListener {
             handleSigninDialog()
-        }
+        } */
     }
     // endregion
 
@@ -125,33 +125,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-    // endregion
-
-    // region FocusFragment에서 사용 할 특수 키 이벤트 핸들링
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        when (keyCode) {
-            KeyEvent.KEYCODE_BACK -> {
-                Log.d("LogTest", "Back Key Down"); return false
-            }
-            KeyEvent.KEYCODE_HOME -> {
-                Log.d("LogTest", "Home Key Down"); return false
-            }
-            KeyEvent.KEYCODE_MENU -> {
-                Log.d("LogTest", "Menu Key Pressed"); return false
-            }
-            KeyEvent.KEYCODE_APP_SWITCH -> {
-                Log.d("LogTest", "OverView Key Pressed"); return false
-            }
-        }
-        return super.onKeyDown(keyCode, event)
-    }
-    // endregion
-
-    // region 홈 키 눌렸는지
-    override fun onUserLeaveHint() {
-        super.onUserLeaveHint()
-        Log.d("LogTest", "Home Key Pressed")
     }
     // endregion
 }
