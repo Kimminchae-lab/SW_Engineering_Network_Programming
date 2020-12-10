@@ -1,10 +1,10 @@
 package com.example.wakeup.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.wakeup.R
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -39,5 +39,9 @@ class SplashActivity : AppCompatActivity() {
         }, 2000) // 2초 후
         // 로그인이 되지 않았을 시
         loginButton.isVisible = true
+    }
+
+    private fun logedIn() {
+
     }
 }
