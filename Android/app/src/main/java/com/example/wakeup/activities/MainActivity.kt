@@ -9,11 +9,24 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wakeup.R
 import com.example.wakeup.navigation.*
+import com.example.wakeup.network.LoginResult
+import com.example.wakeup.network.RetrofitInterface
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_splash.*
+import kotlinx.android.synthetic.main.login_dialog.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+
+    private lateinit var retrofit: Retrofit
+    private lateinit var retrofitInterface: RetrofitInterface
+
     // region BottomNavigation 선택
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
         when (p0.itemId) {
@@ -65,12 +78,19 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         navigation.setOnNavigationItemSelectedListener(this)
 
-        /* loginButton.setOnClickListener {
+        retrofit = Retrofit.Builder()
+                .baseUrl("")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+        retrofitInterface = retrofit.create(RetrofitInterface::class.java)
+
+        login.setOnClickListener {
             handleLoginDialog()
         }
-        signInButton.setOnClickListener {
+        signIn.setOnClickListener {
             handleSigninDialog()
-        } */
+        }
     }
     // endregion
 
@@ -79,7 +99,27 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         var builder = AlertDialog.Builder(this)
         builder.setView(view).show()
 
+        // region loginBtn.setOnClickListener
+        loginBtn.setOnClickListener {
+            var map: HashMap<String, String> = HashMap()
 
+            map["email"] = email_Edit.text.toString()
+            map["password"] = pw_Edit.text.toString()
+
+            var call: Call<LoginResult> = retrofitInterface.executeLogin(map)
+
+            call.enqueue(object : Callback<LoginResult> {
+                override fun onResponse(call: Call<LoginResult>, response: Response<LoginResult>) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onFailure(call: Call<LoginResult>, t: Throwable) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+        }
+        // endregion
     }
 
     // region Sign In
