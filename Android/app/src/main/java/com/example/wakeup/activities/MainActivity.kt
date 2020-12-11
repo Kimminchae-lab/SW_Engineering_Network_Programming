@@ -2,8 +2,6 @@ package com.example.wakeup.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -13,7 +11,6 @@ import com.example.wakeup.R
 import com.example.wakeup.navigation.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_splash.*
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -85,11 +82,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     }
 
+    // region Sign In
     private fun handleSigninDialog() {
         TODO("Not yet implemented")
     }
+    // endregion
 
-    // region 두 번 누르면 종료
+    // region 뒤로 버튼 두 번 누르면 종료
     private var lastTimeBackPressed: Long = 0
     override fun onBackPressed() {
         if (System.currentTimeMillis() - lastTimeBackPressed >= 1500) {
