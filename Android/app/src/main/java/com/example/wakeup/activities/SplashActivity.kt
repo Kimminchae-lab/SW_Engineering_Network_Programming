@@ -38,7 +38,7 @@ class SplashActivity : AppCompatActivity() {
             finish() // 꼭 finish()를 해줘야 함
         }, 2000) // 2초 후
         // 로그인이 되지 않았을 시
-        loginButton.isVisible = true
+        login.isVisible = true
     }
 
     private fun logedIn() {
