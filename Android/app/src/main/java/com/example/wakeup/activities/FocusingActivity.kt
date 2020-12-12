@@ -6,11 +6,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import com.example.wakeup.R
+import kotlinx.android.synthetic.main.activity_focusing.*
 
 class FocusingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_focusing)
+
+        button_Return.setOnClickListener {
+            finish()
+        }
 
     }
 
@@ -27,20 +32,5 @@ class FocusingActivity : AppCompatActivity() {
         return super.onKeyDown(keyCode, event)
     }
 
-    override fun onPause() {
-        super.onPause()
-        startActivity(Intent(applicationContext,FocusingActivity::class.java))
-    }
-
-    override fun onStop() {
-        super.onStop()
-        startActivity(Intent(applicationContext,FocusingActivity::class.java))
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        startActivity(Intent(applicationContext,FocusingActivity::class.java))
-    }
 
 }
