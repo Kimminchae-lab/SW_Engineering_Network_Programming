@@ -15,6 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.login_dialog.*
+import kotlinx.android.synthetic.main.signup_dialog.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -114,7 +115,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 }
 
                 override fun onFailure(call: Call<LoginResult>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    Toast.makeText(this@MainActivity, t.message, Toast.LENGTH_LONG).show()
                 }
 
             })
@@ -124,7 +125,29 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     // region Sign In
     private fun handleSigninDialog() {
-        TODO("Not yet implemented")
+        var view = layoutInflater.inflate(R.layout.signup_dialog, null)
+        var builder = AlertDialog.Builder(this)
+        builder.setView(view).show()
+
+        signupBtn.setOnClickListener {
+            var map: HashMap<String, String> = HashMap()
+
+            map["name"] = name_Edit.text.toString()
+            map["email"] = email_Edit.text.toString()
+            map["password"] = pw_Edit.text.toString()
+
+            var call: Call<Void> = retrofitInterface.executeSignup(map)
+
+            call.enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Toast.makeText(this@MainActivity, t.message, Toast.LENGTH_LONG).show()
+                }
+            });
+        }
     }
     // endregion
 
