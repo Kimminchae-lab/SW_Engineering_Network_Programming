@@ -7,25 +7,27 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.example.wakeup.R
 import com.example.wakeup.navigation.*
 import com.example.wakeup.network.LoginResult
 import com.example.wakeup.network.RetrofitInterface
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.login_dialog.*
 import kotlinx.android.synthetic.main.signup_dialog.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var retrofit: Retrofit
     private lateinit var retrofitInterface: RetrofitInterface
+    private var BASE_URL = "http://"
 
     // region BottomNavigation 선택
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
@@ -83,10 +85,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         routeCheck(intent)
 
-
-
         navigation.setOnNavigationItemSelectedListener(this)
-        /* retrofit = Retrofit.Builder()
+
+        retrofit = Retrofit.Builder()
                 .baseUrl("")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -98,11 +99,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
         signIn.setOnClickListener {
             handleSigninDialog()
-        } */
+        }
     }
 
     private fun routeCheck(intent: Intent) {
-        if(intent.getStringExtra("Route") == "Edit"){
+        if (intent.getStringExtra("Route") == "Edit") {
             val transaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.frame, TimeFragment())
             transaction.commit()
@@ -126,7 +127,18 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
             call.enqueue(object : Callback<LoginResult> {
                 override fun onResponse(call: Call<LoginResult>, response: Response<LoginResult>) {
-                    TODO("Not yet implemented")
+                    if (response.code() == 200) {
+
+                        var result = response.body()
+                        var builder = AlertDialog.Builder(this@MainActivity).also {
+                            it.setTitle(result?.getEmail())
+                            it.setMessage(result?.getPW())
+
+                            it.show()
+                        }
+                    } else if (response.code() == 404) {
+                        Toast.makeText(this@MainActivity, "Wrong Credentials", Toast.LENGTH_LONG).show()
+                    }
                 }
 
                 override fun onFailure(call: Call<LoginResult>, t: Throwable) {
@@ -155,7 +167,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
             call.enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    TODO("Not yet implemented")
+                    if (response.code() == 200) {
+                        Toast.makeText(this@MainActivity, "Signed up", Toast.LENGTH_LONG).show()
+                    } else if (response.code() == 400) {
+                        Toast.makeText(this@MainActivity, "Already registered", Toast.LENGTH_LONG).show()
+                    }
                 }
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
