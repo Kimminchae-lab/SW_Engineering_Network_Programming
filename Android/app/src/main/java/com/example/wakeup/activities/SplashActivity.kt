@@ -1,13 +1,17 @@
 package com.example.wakeup.activities
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
+import android.text.method.SingleLineTransformationMethod
+import android.util.Log
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.wakeup.R
+import com.example.wakeup.datas.Singleton
 import com.example.wakeup.network.LoginResult
 import com.example.wakeup.network.RetrofitInterface
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -25,6 +29,11 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+
+
+
+        initDatas()
+
 
         button_gotoMain.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
@@ -49,6 +58,24 @@ class SplashActivity : AppCompatActivity() {
         // endregion
 
         startLoading()
+    }
+
+    private fun initDatas() {
+        var sf : SharedPreferences = getSharedPreferences("sharedPreferenceFile",MODE_PRIVATE);
+        Singleton.setSharedPreference(sf)
+
+        //RecordWhatStudied().removeDataSharedPreference(Singleton.getSharedPreference())
+
+        Singleton.studyRecordList = RecordWhatStudied().loadDataSharedPreference(Singleton.getSharedPreference())
+
+        for (i in 0 until Singleton.studyRecordList.size) {
+            Log.d(
+                   "LogTest",
+                  "studyTime = ${Singleton.studyRecordList[i].studyTime}" +
+                        "summmary = ${Singleton.studyRecordList[i].summary}" +
+                        "details = ${Singleton.studyRecordList[i].details}"
+            )
+        }
     }
 
     // 앱 실행 후 2초 뒤에 MainActivity로 전환
