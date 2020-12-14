@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private lateinit var retrofit: Retrofit
     private lateinit var retrofitInterface: RetrofitInterface
-    private var BASE_URL = "http://"
+    private var BASE_URL = "http://10.53.68.1:3000"
 
     // region BottomNavigation 선택
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         navigation.setOnNavigationItemSelectedListener(this)
 
         retrofit = Retrofit.Builder()
-                .baseUrl("")
+                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
