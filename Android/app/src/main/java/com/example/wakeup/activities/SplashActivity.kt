@@ -3,8 +3,6 @@ package com.example.wakeup.activities
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.Handler
-import android.text.method.SingleLineTransformationMethod
 import android.util.Log
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
@@ -81,13 +79,14 @@ class SplashActivity : AppCompatActivity() {
     // 앱 실행 후 2초 뒤에 MainActivity로 전환
     private fun startLoading() {
         // 로그인이 되어있는 상태라면
-        Handler().postDelayed({
+        /*Handler().postDelayed({
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent) // MainActivity로 화면 전환
             finish() // 꼭 finish()를 해줘야 함
-        }, 2000) // 2초 후
+        }, 2000) // 2초 후*/
         // 로그인이 되지 않았을 시
         login.isVisible = true
+        signIn.isVisible = true
     }
 
     private fun handleLoginDialog() {
