@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="my_array">
+        <item>일일 사용량</item>
+        <item>주간 사용량</item>
+        <item>월간 사용량</item>
+        <item>연간 사용량</item>
+    </string-array>
+</resources>
