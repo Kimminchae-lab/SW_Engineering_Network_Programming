@@ -1,17 +1,19 @@
 var mysql = require("mysql");
+
 var connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DATABASE,
+  host: "localhost",
+  user: "root",
+  password: "12345678",
+  database: wakeup,
 });
 
-connection.connect(function (err) {
-  if (err) {
-    console.error("error connecting: " + err.stack);
-    return;
+connection.connect();
+
+connection.query("SELECT * FROM user", function (error, result, fields) {
+  if (error) {
+    console.log(error);
   }
-  console.log("connected as id " + connection.threadId);
+  console.log(result);
 });
 
-module.exports = connection;
+connection.end();
