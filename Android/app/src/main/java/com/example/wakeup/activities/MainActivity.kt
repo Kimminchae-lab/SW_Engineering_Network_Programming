@@ -7,20 +7,19 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.wakeup.R
 import com.example.wakeup.navigation.*
 import com.example.wakeup.network.LoginResult
 import com.example.wakeup.network.RetrofitInterface
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.login_dialog.*
 import kotlinx.android.synthetic.main.signup_dialog.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -77,9 +76,17 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        navigation.setOnNavigationItemSelectedListener(this)
 
-        retrofit = Retrofit.Builder()
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.frame, HomeFragment())
+        transaction.commit()
+
+        routeCheck(intent)
+
+
+
+        navigation.setOnNavigationItemSelectedListener(this)
+        /* retrofit = Retrofit.Builder()
                 .baseUrl("")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -91,6 +98,14 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
         signIn.setOnClickListener {
             handleSigninDialog()
+        } */
+    }
+
+    private fun routeCheck(intent: Intent) {
+        if(intent.getStringExtra("Route") == "Edit"){
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.frame, TimeFragment())
+            transaction.commit()
         }
     }
     // endregion

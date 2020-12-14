@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.wakeup">
 
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Wakeup">
-        <activity android:name=".activities.FocusingActivity"></activity>
+        
+        android:theme="@style/Theme.Wakeup"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".activities.RecordWhatStudied"></activity>
+        <activity android:name=".activities.ShowUsageStats" />
+        <activity android:name=".activities.FocusingActivity" />
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.MyInfoActivity" />
         <activity android:name=".activities.SplashActivity">

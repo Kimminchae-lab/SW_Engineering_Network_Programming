@@ -13,16 +13,6 @@
         android:layout_height="match_parent"
         android:text="백색 소음/ASMR/목표 설정/목표 현황" />
 
-    <Button
-        android:id="@+id/button_Focus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="144dp"
-        android:text="앱 사용 제어 "
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <com.github.clans.fab.FloatingActionMenu
         android:layout_width="wrap_content"
