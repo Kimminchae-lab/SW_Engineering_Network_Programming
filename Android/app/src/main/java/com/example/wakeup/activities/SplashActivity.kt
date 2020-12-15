@@ -72,9 +72,9 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun initDatas() {
-        var sf: SharedPreferences = getSharedPreferences("sharedPreferenceFile", MODE_PRIVATE);
+        var sf: SharedPreferences = getSharedPreferences("sharedPreferenceFile", MODE_PRIVATE)
         Singleton.setSharedPreference(sf)
-
+        //Singleton.clearData(applicationContext.resources.getString(R.string.user_data))
         //RecordWhatStudied().removeDataSharedPreference(Singleton.getSharedPreference())
 
         Singleton.itemToDoList = Singleton.loadItemTodo(applicationContext.resources.getString(R.string.todo_list))

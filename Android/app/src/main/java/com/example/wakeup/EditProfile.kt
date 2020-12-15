@@ -20,7 +20,7 @@ class EditProfile : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
 
-        imageBitmap = Singleton.userProfile.profileImage
+        imageBitmap = Singleton.stringToBitmap(Singleton.userProfile.profileImage)!!
         init()
         hideActionBar()
 
@@ -30,7 +30,7 @@ class EditProfile : AppCompatActivity() {
 
     private fun init() {
         editText_Edit_ProfileName.setText(Singleton.userProfile.proFileName)
-        imageView_Edit_ProfileImage.setImageBitmap(Singleton.userProfile.profileImage)
+        //imageView_Edit_ProfileImage.setImageBitmap(Singleton.userProfile.profileImage)
         textView_Edit_ProfileImage.setOnClickListener {
             openGallery()
         }
@@ -41,7 +41,7 @@ class EditProfile : AppCompatActivity() {
             finish()
         }
         imageView_Finish_EditProfile.setOnClickListener {
-            Singleton.saveUserData(UserData(editText_Edit_ProfileName.text.toString(), imageBitmap), applicationContext.resources.getString(R.string.user_data))
+            Singleton.saveUserData(UserData(editText_Edit_ProfileName.text.toString(), Singleton.bitmapToString(imageBitmap)!! ), applicationContext.resources.getString(R.string.user_data))
             setResult(100)
             finish()
         }
@@ -73,7 +73,7 @@ class EditProfile : AppCompatActivity() {
             val imageBitmap = MediaStore.Images.Media.getBitmap(applicationContext.contentResolver, imageUri)
 
             try {
-                Singleton.userProfile.profileImage = imageBitmap
+                Singleton.userProfile.profileImage = Singleton.bitmapToString(imageBitmap)!!
             } catch (ex: IOException) {
                 ex.printStackTrace()
             }

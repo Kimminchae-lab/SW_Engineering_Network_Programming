@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.wakeup.R
 import com.example.wakeup.adapter.ItemTodoAdapter
@@ -43,10 +44,6 @@ class FocusFragment : Fragment() {
 
         initTodoListView(view)
 
-        view.imageView_AddTodoList.setOnClickListener {
-            makeDialog()
-        }
-
         return view
     }
 
@@ -69,10 +66,15 @@ class FocusFragment : Fragment() {
                 val value = input.text.toString()
                 //value.toString();
 
-                var item = ItemTodo(false, value)
-                adapter.addTodoItemtoArrayList(item)
-                adapter.notifyDataSetChanged()
-                // Do something with value!
+                if(value == ""){
+                    Toast.makeText(context, "공백은 추가할수 없어요!", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    var item = ItemTodo(false, value)
+                    adapter.addTodoItemtoArrayList(item)
+                    adapter.notifyDataSetChanged()
+                }
+
 
             })
 
@@ -88,8 +90,6 @@ class FocusFragment : Fragment() {
     }
 
     private fun initTodoListView(view: View) {
-
-
 
         adapter = ItemTodoAdapter(view.context)
 
@@ -107,7 +107,7 @@ class FocusFragment : Fragment() {
         }
 
         view.imageView_AddTodoList.setOnClickListener {
-
+            makeDialog()
         }
 
     }

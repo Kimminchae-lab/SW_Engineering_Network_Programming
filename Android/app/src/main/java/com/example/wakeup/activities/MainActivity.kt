@@ -132,7 +132,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         super.onActivityResult(requestCode, resultCode, data)
 
         if(resultCode == 100){
-            HomeFragment().setDatas()
+            HomeFragment().updateMyProfile()
         }
         else{
             Toast.makeText(applicationContext, "에러!", Toast.LENGTH_SHORT).show()

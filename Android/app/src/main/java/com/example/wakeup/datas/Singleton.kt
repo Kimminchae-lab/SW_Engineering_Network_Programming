@@ -5,14 +5,14 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.MediaPlayer
-import androidx.appcompat.app.AppCompatActivity
+import android.util.Base64
 import com.example.wakeup.R
 import com.example.wakeup.model.ItemTodo
 import com.example.wakeup.model.StudyRecord
 import com.example.wakeup.model.UserData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlin.coroutines.coroutineContext
+import java.io.ByteArrayOutputStream
 
 
 object Singleton {
@@ -23,7 +23,9 @@ object Singleton {
 
     lateinit var userProfile : UserData
 
-    private lateinit var sharedPreferences : SharedPreferences
+    lateinit var sharedPreferences : SharedPreferences
+
+
 
     var studyRecordList = ArrayList<StudyRecord>()
 
@@ -113,7 +115,7 @@ object Singleton {
         if(json != null) {
             userData = gson.fromJson(json, turnsType)
         }else{
-            userData = UserData("게스트", BitmapFactory.decodeResource(context?.resources, R.drawable.account_48dp))
+            userData = UserData("게스트", bitmapToString(BitmapFactory.decodeResource(context?.resources, R.drawable.account_48dp))!!)
         }
         return userData
     }
@@ -122,18 +124,40 @@ object Singleton {
         userProfile = userData
         var pref_editor = getSharedPreference().edit();
 
+
         var gson = Gson()
         var json = gson.toJson(userData)
 
         pref_editor.putString(key, json)
         pref_editor.apply()
     }
+
     fun clearData(key: String){
         var pref_editor = getSharedPreference().edit();
 
         pref_editor.clear()
         pref_editor.apply()
 
+    }
+
+    fun stringToBitmap(encodedString: String?): Bitmap? {
+        return try {
+            val encodeByte: ByteArray = Base64.decode(encodedString, Base64.DEFAULT)
+            BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.size)
+        } catch (e: Exception) {
+            e.message
+            null
+        }
+    }
+
+    /*
+     * Bitmap을 String형으로 변환
+     * */
+    fun bitmapToString(bitmap: Bitmap): String? {
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 70, baos)
+        val bytes: ByteArray = baos.toByteArray()
+        return Base64.encodeToString(bytes, Base64.DEFAULT)
     }
 
 }
