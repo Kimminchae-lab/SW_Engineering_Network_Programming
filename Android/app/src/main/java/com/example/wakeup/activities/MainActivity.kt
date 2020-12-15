@@ -5,29 +5,14 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wakeup.R
 import com.example.wakeup.navigation.*
-import com.example.wakeup.network.LoginResult
-import com.example.wakeup.network.RetrofitInterface
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_splash.*
-import kotlinx.android.synthetic.main.login_dialog.*
-import kotlinx.android.synthetic.main.signup_dialog.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
-
-    private lateinit var retrofit: Retrofit
-    private lateinit var retrofitInterface: RetrofitInterface
-    private var BASE_URL = "http://10.53.68.1:3000"
 
     // region BottomNavigation 선택
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
@@ -87,19 +72,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         navigation.setOnNavigationItemSelectedListener(this)
 
-        retrofit = Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
 
-        retrofitInterface = retrofit.create(RetrofitInterface::class.java)
-
-        login.setOnClickListener {
-            handleLoginDialog()
-        }
-        signIn.setOnClickListener {
-            handleSigninDialog()
-        }
     }
 
     private fun routeCheck(intent: Intent) {
@@ -111,76 +84,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
     // endregion
 
-    private fun handleLoginDialog() {
-        var view = layoutInflater.inflate(R.layout.login_dialog, null)
-        var builder = AlertDialog.Builder(this)
-        builder.setView(view).show()
 
-        // region loginBtn.setOnClickListener
-        loginBtn.setOnClickListener {
-            var map: HashMap<String, String> = HashMap()
 
-            map["email"] = email_Edit.text.toString()
-            map["password"] = pw_Edit.text.toString()
 
-            var call: Call<LoginResult> = retrofitInterface.executeLogin(map)
-
-            call.enqueue(object : Callback<LoginResult> {
-                override fun onResponse(call: Call<LoginResult>, response: Response<LoginResult>) {
-                    if (response.code() == 200) {
-
-                        var result = response.body()
-                        var builder = AlertDialog.Builder(this@MainActivity).also {
-                            it.setTitle(result?.getEmail())
-                            it.setMessage(result?.getPW())
-
-                            it.show()
-                        }
-                    } else if (response.code() == 404) {
-                        Toast.makeText(this@MainActivity, "Wrong Credentials", Toast.LENGTH_LONG).show()
-                    }
-                }
-
-                override fun onFailure(call: Call<LoginResult>, t: Throwable) {
-                    Toast.makeText(this@MainActivity, t.message, Toast.LENGTH_LONG).show()
-                }
-
-            })
-        }
-        // endregion
-    }
-
-    // region Sign In
-    private fun handleSigninDialog() {
-        var view = layoutInflater.inflate(R.layout.signup_dialog, null)
-        var builder = AlertDialog.Builder(this)
-        builder.setView(view).show()
-
-        signupBtn.setOnClickListener {
-            var map: HashMap<String, String> = HashMap()
-
-            map["name"] = name_Edit.text.toString()
-            map["email"] = email_Edit.text.toString()
-            map["password"] = pw_Edit.text.toString()
-
-            var call: Call<Void> = retrofitInterface.executeSignup(map)
-
-            call.enqueue(object : Callback<Void> {
-                override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    if (response.code() == 200) {
-                        Toast.makeText(this@MainActivity, "Signed up", Toast.LENGTH_LONG).show()
-                    } else if (response.code() == 400) {
-                        Toast.makeText(this@MainActivity, "Already registered", Toast.LENGTH_LONG).show()
-                    }
-                }
-
-                override fun onFailure(call: Call<Void>, t: Throwable) {
-                    Toast.makeText(this@MainActivity, t.message, Toast.LENGTH_LONG).show()
-                }
-            });
-        }
-    }
-    // endregion
 
     // region 뒤로 버튼 두 번 누르면 종료
     private var lastTimeBackPressed: Long = 0
