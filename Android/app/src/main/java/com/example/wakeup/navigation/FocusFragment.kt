@@ -1,25 +1,25 @@
 package com.example.wakeup.navigation
 
-import android.content.Intent
-import android.media.MediaPlayer
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.example.wakeup.R
-import com.example.wakeup.activities.FocusingActivity
-import com.example.wakeup.activities.ShowUsageStats
+import com.example.wakeup.adapter.ItemTodoAdapter
 import com.example.wakeup.datas.Singleton
 import com.example.wakeup.datas.Singleton.gMediaPlayer
-import com.example.wakeup.datas.Singleton.mediaPlayer
 import com.example.wakeup.datas.Singleton.playingPosition
 import com.example.wakeup.datas.Singleton.setMusicOfMediaPlayer
+import com.example.wakeup.model.ItemTodo
 import com.github.clans.fab.FloatingActionButton
-import kotlinx.android.synthetic.main.fragment_focus.*
 import kotlinx.android.synthetic.main.fragment_focus.view.*
+
 
 data class FabData(
     var fab : FloatingActionButton,
@@ -31,19 +31,74 @@ data class FabData(
 class FocusFragment : Fragment() {
 
     lateinit var fabDataList: List<FabData>
+    var itemTodoList = ArrayList<ItemTodo>()
+
+    lateinit var adapter : ItemTodoAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_focus, container, false)
 
         initFabDataArray(view)
-
+        setButtonsOnclickListener(view)
         isMusicPlaying()
 
+        initTodoListView(view)
 
-
-            return view
+        view.imageView_AddTodoList.setOnClickListener {
+            makeDialog()
         }
+
+        return view
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+
+        Singleton.saveItemTodo(itemTodoList, requireContext().resources.getString(R.string.todo_list))
+    }
+
+    private fun makeDialog(){
+        val alert: AlertDialog.Builder = AlertDialog.Builder(context)
+
+        alert.setTitle("학습목표 추가")
+        alert.setView(R.layout.add_todo_item_dialog)
+
+        alert.setPositiveButton("추가",
+            DialogInterface.OnClickListener { dialog, whichButton ->
+                val f: Dialog = dialog as Dialog
+                val input = f.findViewById(R.id.addboxdialog) as EditText
+                val value = input.text.toString()
+                //value.toString();
+
+                var item = ItemTodo(false, value)
+                adapter.addTodoItemtoArrayList(item)
+                adapter.notifyDataSetChanged()
+                // Do something with value!
+
+            })
+
+
+        alert.setNegativeButton("취소",
+            DialogInterface.OnClickListener { dialog, whichButton ->
+                // Canceled.
+            })
+
+        val dialog: AlertDialog = alert.create()
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        alert.show()
+    }
+
+    private fun initTodoListView(view: View) {
+
+        itemTodoList = Singleton.loadItemTodo(requireContext().resources.getString(R.string.todo_list))
+
+        adapter = ItemTodoAdapter(view.context, itemTodoList)
+
+        view.listView_TodoList.adapter = adapter
+
+        adapter.notifyDataSetChanged()
+    }
 
     private fun setButtonsOnclickListener(view : View){
 
@@ -51,6 +106,10 @@ class FocusFragment : Fragment() {
             fabDataList[i].fab.setOnClickListener {
                 controlMusic(i)
             }
+        }
+
+        view.imageView_AddTodoList.setOnClickListener {
+
         }
 
     }
