@@ -1,30 +1,32 @@
 package com.example.wakeup.activities
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.Handler
-import android.text.method.SingleLineTransformationMethod
 import android.util.Log
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import com.example.wakeup.R
 import com.example.wakeup.datas.Singleton
 import com.example.wakeup.network.LoginResult
 import com.example.wakeup.network.RetrofitInterface
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.login_dialog.*
+import kotlinx.android.synthetic.main.signup_dialog.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var retrofit: Retrofit
     private lateinit var retrofitInterface: RetrofitInterface
+    private var BASE_URL = "http://10.53.68.1:3000"
+    var logedIn: Int = 0
+    var signedIn: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,15 +37,21 @@ class SplashActivity : AppCompatActivity() {
         initDatas()
 
 
-        button_gotoMain.setOnClickListener {
+        /*button_gotoMain.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
-        }
+        }*/
         login.setOnClickListener {
             handleLoginDialog()
         }
         signIn.setOnClickListener {
             handleSigninDialog()
         }
+        retrofit = Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+        retrofitInterface = retrofit.create(RetrofitInterface::class.java)
 
         // region hide actionBar
         val actionBar = supportActionBar
@@ -61,7 +69,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun initDatas() {
-        var sf : SharedPreferences = getSharedPreferences("sharedPreferenceFile",MODE_PRIVATE);
+        var sf: SharedPreferences = getSharedPreferences("sharedPreferenceFile", MODE_PRIVATE);
         Singleton.setSharedPreference(sf)
 
         //RecordWhatStudied().removeDataSharedPreference(Singleton.getSharedPreference())
@@ -70,10 +78,10 @@ class SplashActivity : AppCompatActivity() {
 
         for (i in 0 until Singleton.studyRecordList.size) {
             Log.d(
-                   "LogTest",
-                  "studyTime = ${Singleton.studyRecordList[i].studyTime}" +
-                        "summmary = ${Singleton.studyRecordList[i].summary}" +
-                        "details = ${Singleton.studyRecordList[i].details}"
+                    "LogTest",
+                    "studyTime = ${Singleton.studyRecordList[i].studyTime}" +
+                            "summmary = ${Singleton.studyRecordList[i].summary}" +
+                            "details = ${Singleton.studyRecordList[i].details}"
             )
         }
         //Singleton.clearData(applicationContext.resources.getString(R.string.todo_list))
@@ -81,14 +89,11 @@ class SplashActivity : AppCompatActivity() {
 
     // 앱 실행 후 2초 뒤에 MainActivity로 전환
     private fun startLoading() {
-        // 로그인이 되어있는 상태라면
-        Handler().postDelayed({
+        /*Handler().postDelayed({
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent) // MainActivity로 화면 전환
             finish() // 꼭 finish()를 해줘야 함
-        }, 2000) // 2초 후
-        // 로그인이 되지 않았을 시
-        login.isVisible = true
+        }, 2000) // 2초 후*/
     }
 
     private fun handleLoginDialog() {
@@ -107,11 +112,19 @@ class SplashActivity : AppCompatActivity() {
 
             call.enqueue(object : Callback<LoginResult> {
                 override fun onResponse(call: Call<LoginResult>, response: Response<LoginResult>) {
-                    TODO("Not yet implemented")
+                    if (response.code() == 200) {
+                        // var result = response.body()
+                            logedIn = 1
+                        Toast.makeText(this@SplashActivity, "로그인 성공", Toast.LENGTH_LONG).show()
+                    } else if (response.code() == 404) {
+                        logedIn = 2
+                        Toast.makeText(this@SplashActivity, "Wrong Credentials", Toast.LENGTH_LONG).show()
+                    }
                 }
 
                 override fun onFailure(call: Call<LoginResult>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    logedIn = 3
+                    Toast.makeText(this@SplashActivity, t.message, Toast.LENGTH_LONG).show()
                 }
 
             })
@@ -121,12 +134,38 @@ class SplashActivity : AppCompatActivity() {
 
     // region Sign In
     private fun handleSigninDialog() {
-        TODO("Not yet implemented")
+        var view = layoutInflater.inflate(R.layout.signup_dialog, null)
+        var builder = AlertDialog.Builder(this)
+        builder.setView(view).show()
+
+        signupBtn.setOnClickListener {
+            var map: HashMap<String, String> = HashMap()
+
+            map["name"] = name_Edit.text.toString()
+            map["email"] = email_Edit.text.toString()
+            map["password"] = pw_Edit.text.toString()
+
+            var call: Call<Void> = retrofitInterface.executeSignup(map)
+
+            call.enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.code() == 200) {
+                        signedIn = 1
+                        Toast.makeText(this@SplashActivity, "Signed up", Toast.LENGTH_LONG).show()
+                    } else if (response.code() == 400) {
+                        signedIn = 2
+                        Toast.makeText(this@SplashActivity, "Already registered", Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    signedIn = 3
+                    Toast.makeText(this@SplashActivity, t.message, Toast.LENGTH_LONG).show()
+                }
+            });
+        }
     }
-    // endregion
+// endregion
 
 
-    private fun logedIn() {
-
-    }
 }

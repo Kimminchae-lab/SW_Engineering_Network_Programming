@@ -1,41 +1,60 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+const express = require("express");
+const app = express();
+const mongoClient = require("mongodb").MongoClient;
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+const url = "mongodb://127.0.0.1:27017";
 
-var app = express();
-
-// view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
-
-app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
+mongoClient.connect(url, (err, db) => {
+  if (err) {
+    console.log(err.message);
+  } else {
+    const myDb = db.db("myDb");
+    const collection = myDb.collection("myTable");
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
+    app.post("/signup", (req, res) => {
+      const newUser = {
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+      };
+
+      const query = { email: newUser.email };
+
+      collection.findOne(query, (err, result) => {
+        if (result == null) {
+          collection.insertOne(newUser, (err, result) => {
+            res.status(200).send();
+          });
+        } else {
+          res.status(400).send();
+        }
+      });
+    });
+
+    app.post("/login", (req, res) => {
+      const query = {
+        email: req.body.email,
+        password: req.body.password,
+      };
+
+      collection.findOne(query, (err, result) => {
+        if (result != null) {
+          const objToSend = {
+            name: result.name,
+            email: result.email,
+          };
+
+          res.status(200).send(JSON.stringify(objToSend));
+        } else {
+          res.status(404).send();
+        }
+      });
+    });
+  }
 });
 
-// error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
+app.listen(3000, () => {
+  console.log("Listening on port 3000...");
 });
-
-module.exports = app;

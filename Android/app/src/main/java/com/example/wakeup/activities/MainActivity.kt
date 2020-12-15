@@ -5,27 +5,14 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.example.wakeup.R
 import com.example.wakeup.navigation.*
-import com.example.wakeup.network.LoginResult
-import com.example.wakeup.network.RetrofitInterface
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.login_dialog.*
-import kotlinx.android.synthetic.main.signup_dialog.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
-
-    private lateinit var retrofit: Retrofit
-    private lateinit var retrofitInterface: RetrofitInterface
 
     // region BottomNavigation 선택
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
@@ -83,26 +70,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         routeCheck(intent)
 
-
-
         navigation.setOnNavigationItemSelectedListener(this)
-        /* retrofit = Retrofit.Builder()
-                .baseUrl("")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
 
-        retrofitInterface = retrofit.create(RetrofitInterface::class.java)
 
-        login.setOnClickListener {
-            handleLoginDialog()
-        }
-        signIn.setOnClickListener {
-            handleSigninDialog()
-        } */
     }
 
     private fun routeCheck(intent: Intent) {
-        if(intent.getStringExtra("Route") == "Edit"){
+        if (intent.getStringExtra("Route") == "Edit") {
             val transaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.frame, TimeFragment())
             transaction.commit()
@@ -110,61 +84,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
     // endregion
 
-    private fun handleLoginDialog() {
-        var view = layoutInflater.inflate(R.layout.login_dialog, null)
-        var builder = AlertDialog.Builder(this)
-        builder.setView(view).show()
 
-        // region loginBtn.setOnClickListener
-        loginBtn.setOnClickListener {
-            var map: HashMap<String, String> = HashMap()
 
-            map["email"] = email_Edit.text.toString()
-            map["password"] = pw_Edit.text.toString()
 
-            var call: Call<LoginResult> = retrofitInterface.executeLogin(map)
-
-            call.enqueue(object : Callback<LoginResult> {
-                override fun onResponse(call: Call<LoginResult>, response: Response<LoginResult>) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun onFailure(call: Call<LoginResult>, t: Throwable) {
-                    Toast.makeText(this@MainActivity, t.message, Toast.LENGTH_LONG).show()
-                }
-
-            })
-        }
-        // endregion
-    }
-
-    // region Sign In
-    private fun handleSigninDialog() {
-        var view = layoutInflater.inflate(R.layout.signup_dialog, null)
-        var builder = AlertDialog.Builder(this)
-        builder.setView(view).show()
-
-        signupBtn.setOnClickListener {
-            var map: HashMap<String, String> = HashMap()
-
-            map["name"] = name_Edit.text.toString()
-            map["email"] = email_Edit.text.toString()
-            map["password"] = pw_Edit.text.toString()
-
-            var call: Call<Void> = retrofitInterface.executeSignup(map)
-
-            call.enqueue(object : Callback<Void> {
-                override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun onFailure(call: Call<Void>, t: Throwable) {
-                    Toast.makeText(this@MainActivity, t.message, Toast.LENGTH_LONG).show()
-                }
-            });
-        }
-    }
-    // endregion
 
     // region 뒤로 버튼 두 번 누르면 종료
     private var lastTimeBackPressed: Long = 0

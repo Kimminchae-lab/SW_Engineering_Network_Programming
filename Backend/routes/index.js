@@ -1,9 +1,23 @@
-var express = require('express');
-var router = express.Router();
+var express = require("express");
+var crypto = require("crypto");
+var uuid = require("uuid");
+var mysql = require("mysql");
+var bodyParser = require("body-parser");
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+// Create Connection with MySQL
+var connection = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "wakeup",
 });
 
-module.exports = router;
+connection.connect(function (err) {
+  if (err) {
+    console.error("error connecting: " + err.stack);
+    return;
+  }
+  console.log("connected as id " + connection.threadId);
+});
+
+module.exports = connection;
