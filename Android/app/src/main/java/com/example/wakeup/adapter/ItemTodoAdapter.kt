@@ -16,12 +16,13 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import com.example.wakeup.R
+import com.example.wakeup.datas.Singleton
 import com.example.wakeup.model.ItemTodo
 
 
-class ItemTodoAdapter(context: Context, arrayList : ArrayList<ItemTodo>): BaseAdapter() {
+class ItemTodoAdapter(context: Context): BaseAdapter() {
 
-    var itemToDoList = arrayList
+    
     var context = context
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
@@ -33,8 +34,8 @@ class ItemTodoAdapter(context: Context, arrayList : ArrayList<ItemTodo>): BaseAd
         var textTodo = convertView.findViewById<TextView>(R.id.textView_item_Todo)
 
 
-        checkBox.isChecked = itemToDoList[position].isChecked
-        textTodo.text = itemToDoList[position].text
+        checkBox.isChecked = Singleton.itemToDoList[position].isChecked
+        textTodo.text = Singleton.itemToDoList[position].text
         checkCheckBox(checkBox, textTodo)
 
         checkBox.setOnClickListener {
@@ -53,24 +54,19 @@ class ItemTodoAdapter(context: Context, arrayList : ArrayList<ItemTodo>): BaseAd
 
         alert.setTitle("학습목표 수정")
         alert.setView(R.layout.add_todo_item_dialog)
-        
-        alert.setPositiveButton("수정",
-            DialogInterface.OnClickListener { dialog, whichButton ->
-                val f: Dialog = dialog as Dialog
-                var input = f.findViewById(R.id.addboxdialog) as EditText
-                input.setText(itemToDoList[position].text)
-                val value = input.text.toString()
-                //value.toString();
+        alert.setPositiveButton("수정"
+        ) { dialog, whichButton ->
+            val f: Dialog = dialog as Dialog
+            var input = f.findViewById(R.id.addboxdialog) as EditText
+            val value = input.text.toString()
+            //value.toString();
 
-                itemToDoList[position].text = value
+            Singleton.itemToDoList[position].text = value
 
+            notifyDataSetChanged()
+            // Do something with value!
 
-                notifyDataSetChanged()
-                // Do something with value!
-
-            })
-
-
+        }
         alert.setNegativeButton("취소",
             DialogInterface.OnClickListener { dialog, whichButton ->
                 // Canceled.
@@ -94,11 +90,11 @@ class ItemTodoAdapter(context: Context, arrayList : ArrayList<ItemTodo>): BaseAd
     }
 
     fun addTodoItemtoArrayList(itemTodo: ItemTodo){
-        itemToDoList.add(itemTodo)
+        Singleton.itemToDoList.add(itemTodo)
     }
 
     override fun getItem(position: Int): Any {
-        return itemToDoList[position]
+        return Singleton.itemToDoList[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -106,7 +102,7 @@ class ItemTodoAdapter(context: Context, arrayList : ArrayList<ItemTodo>): BaseAd
     }
 
     override fun getCount(): Int {
-        return itemToDoList.size
+        return Singleton.itemToDoList.size
     }
 
 }

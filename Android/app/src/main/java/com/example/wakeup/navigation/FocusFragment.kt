@@ -31,8 +31,6 @@ data class FabData(
 class FocusFragment : Fragment() {
 
     lateinit var fabDataList: List<FabData>
-    var itemTodoList = ArrayList<ItemTodo>()
-
     lateinit var adapter : ItemTodoAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -55,7 +53,7 @@ class FocusFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
 
-        Singleton.saveItemTodo(itemTodoList, requireContext().resources.getString(R.string.todo_list))
+        Singleton.saveItemTodo(Singleton.itemToDoList, requireContext().resources.getString(R.string.todo_list))
     }
 
     private fun makeDialog(){
@@ -91,9 +89,9 @@ class FocusFragment : Fragment() {
 
     private fun initTodoListView(view: View) {
 
-        itemTodoList = Singleton.loadItemTodo(requireContext().resources.getString(R.string.todo_list))
 
-        adapter = ItemTodoAdapter(view.context, itemTodoList)
+
+        adapter = ItemTodoAdapter(view.context)
 
         view.listView_TodoList.adapter = adapter
 

@@ -1,5 +1,6 @@
 package com.example.wakeup.activities
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -37,9 +38,9 @@ class SplashActivity : AppCompatActivity() {
         initDatas()
 
 
-        /*button_gotoMain.setOnClickListener {
+        button_gotoMain.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
-        }*/
+        }
         login.setOnClickListener {
             handleLoginDialog()
         }
@@ -47,9 +48,9 @@ class SplashActivity : AppCompatActivity() {
             handleSigninDialog()
         }
         retrofit = Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
 
         retrofitInterface = retrofit.create(RetrofitInterface::class.java)
 
@@ -60,8 +61,8 @@ class SplashActivity : AppCompatActivity() {
 
         // region hide titleBar(fullScreen)
         window.setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
         // endregion
 
@@ -74,16 +75,10 @@ class SplashActivity : AppCompatActivity() {
 
         //RecordWhatStudied().removeDataSharedPreference(Singleton.getSharedPreference())
 
+        Singleton.itemToDoList = Singleton.loadItemTodo(applicationContext.resources.getString(R.string.todo_list))
         Singleton.studyRecordList = Singleton.loadStudyRecord( applicationContext.resources.getString(R.string.study_record_list))
+        Singleton.userProfile = Singleton.loadUserData(applicationContext, applicationContext.resources.getString(R.string.user_data))
 
-        for (i in 0 until Singleton.studyRecordList.size) {
-            Log.d(
-                    "LogTest",
-                    "studyTime = ${Singleton.studyRecordList[i].studyTime}" +
-                            "summmary = ${Singleton.studyRecordList[i].summary}" +
-                            "details = ${Singleton.studyRecordList[i].details}"
-            )
-        }
         //Singleton.clearData(applicationContext.resources.getString(R.string.todo_list))
     }
 
@@ -114,7 +109,7 @@ class SplashActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<LoginResult>, response: Response<LoginResult>) {
                     if (response.code() == 200) {
                         // var result = response.body()
-                            logedIn = 1
+                        logedIn = 1
                         Toast.makeText(this@SplashActivity, "로그인 성공", Toast.LENGTH_LONG).show()
                     } else if (response.code() == 404) {
                         logedIn = 2
