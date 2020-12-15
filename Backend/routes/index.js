@@ -19,6 +19,7 @@ router.get("/", function (req, res) {
 });
 
 router.post("/", function (req, res) {
+
   var email = req.body.email;
   var name = req.body.name;
   var pw = req.body.password;

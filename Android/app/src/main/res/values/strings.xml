@@ -16,4 +16,5 @@
 
     <string name="study_record_list">SRList</string>
     <string name="todo_list">TDList</string>
+    <string name="user_data">UserData</string>
 </resources>

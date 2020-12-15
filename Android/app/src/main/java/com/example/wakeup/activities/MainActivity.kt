@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.wakeup.EditProfile
 import com.example.wakeup.R
 import com.example.wakeup.navigation.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -113,9 +114,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         val intent: Intent
         when (item.itemId) {
             R.id.myInfo -> {
-                intent = Intent(this, MyInfoActivity::class.java)
-                startActivity(intent) // MyInfoActivity로 화면 전환
-                finish() // 꼭 finish()를 해줘야 함
+                intent = Intent(this, EditProfile::class.java)
+                startActivityForResult(intent, 100) // MyInfoActivity로 화면 전환
+                //finish() // 꼭 finish()를 해줘야 함
             }
             R.id.settings -> {
                 intent = Intent(this, SettingsActivity::class.java)
@@ -126,4 +127,15 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return super.onOptionsItemSelected(item)
     }
     // endregion
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(resultCode == 100){
+            HomeFragment().setDatas()
+        }
+        else{
+            Toast.makeText(applicationContext, "에러!", Toast.LENGTH_SHORT).show()
+        }
+    }
 }
