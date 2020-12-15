@@ -2,13 +2,13 @@ const express = require("express");
 const app = express();
 const mongoClient = require("mongodb").MongoClient;
 
-const url = "mongodb://localhost:27017";
+const url = "mongodb://127.0.0.1:27017";
 
 app.use(express.json());
 
 mongoClient.connect(url, (err, db) => {
   if (err) {
-    console.log("Error while connecting mongo client");
+    console.log(err.message);
   } else {
     const myDb = db.db("myDb");
     const collection = myDb.collection("myTable");
