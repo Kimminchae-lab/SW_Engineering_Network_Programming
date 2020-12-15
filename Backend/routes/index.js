@@ -25,7 +25,7 @@ router.post("/", function (req, res) {
   var pw = req.body.password;
 
   var query = connection.query(
-    'insert into user (name, pw, email) values ("' +
+    'insert into user (username, userpw, useremail) values ("' +
       email +
       '","' +
       name +
