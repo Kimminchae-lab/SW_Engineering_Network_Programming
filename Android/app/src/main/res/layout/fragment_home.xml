@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
-            android:bindBitmap="@{activity.profileImage}"
+            android:src="@drawable/account_48dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

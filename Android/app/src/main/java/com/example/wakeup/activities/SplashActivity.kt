@@ -14,7 +14,9 @@ import com.example.wakeup.network.LoginResult
 import com.example.wakeup.network.RetrofitInterface
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.login_dialog.*
+import kotlinx.android.synthetic.main.login_dialog.view.*
 import kotlinx.android.synthetic.main.signup_dialog.*
+import kotlinx.android.synthetic.main.signup_dialog.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -97,11 +99,11 @@ class SplashActivity : AppCompatActivity() {
         builder.setView(view).show()
 
         // region loginBtn.setOnClickListener
-        loginBtn.setOnClickListener {
+        view.loginBtn.setOnClickListener {
             var map: HashMap<String, String> = HashMap()
 
-            map["email"] = email_Edit.text.toString()
-            map["password"] = pw_Edit.text.toString()
+            map["email"] = view.email_Edit.text.toString()
+            map["password"] = view.pw_Edit.text.toString()
 
             var call: Call<LoginResult> = retrofitInterface.executeLogin(map)
 
@@ -133,12 +135,12 @@ class SplashActivity : AppCompatActivity() {
         var builder = AlertDialog.Builder(this)
         builder.setView(view).show()
 
-        signupBtn.setOnClickListener {
+        view.signupBtn.setOnClickListener {
             var map: HashMap<String, String> = HashMap()
 
-            map["name"] = name_Edit.text.toString()
-            map["email"] = email_Edit.text.toString()
-            map["password"] = pw_Edit.text.toString()
+            map["name"] = view.name_Edit.text.toString()
+            map["email"] = view.signemail_edit.text.toString()
+            map["password"] = view.signpw_edit.text.toString()
 
             var call: Call<Void> = retrofitInterface.executeSignup(map)
 
