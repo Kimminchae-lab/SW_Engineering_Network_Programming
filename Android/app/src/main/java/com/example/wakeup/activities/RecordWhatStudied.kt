@@ -58,7 +58,7 @@ class RecordWhatStudied : AppCompatActivity() {
             Singleton.studyRecordList[intent.getIntExtra("Position", 0)].details = editText_Record_StudyDetails.text.toString()
 
 
-            saveDataSharedPreference(Singleton.sharedPreferences, Singleton.studyRecordList)
+            Singleton.saveStudyRecord(Singleton.studyRecordList, applicationContext.resources.getString(R.string.study_record_list))
 
             for (i in 0 until Singleton.studyRecordList.size) {
                 Log.d(
@@ -88,12 +88,12 @@ class RecordWhatStudied : AppCompatActivity() {
                 intent.getIntExtra("Time", 0), editText_Record_StudySummary.text.toString(), editText_Record_StudyDetails.text.toString(), "${LocalDate.now()}"
             )
 
-            Singleton.studyRecordList = loadDataSharedPreference(Singleton.getSharedPreference())
+            Singleton.studyRecordList = Singleton.loadStudyRecord(applicationContext.resources.getString(R.string.study_record_list))
 
             Singleton.studyRecordList.add(studyRecord)
 
 
-            saveDataSharedPreference(Singleton.sharedPreferences, Singleton.studyRecordList)
+            Singleton.saveStudyRecord(Singleton.studyRecordList, applicationContext.resources.getString(R.string.study_record_list))
 
             for (i in 0 until Singleton.studyRecordList.size) {
                 Log.d(
@@ -111,41 +111,10 @@ class RecordWhatStudied : AppCompatActivity() {
         }
     }
 
-     fun loadDataSharedPreference(pref: SharedPreferences) : ArrayList<StudyRecord>{
-        var itemList =  ArrayList<StudyRecord>()
-        var json = pref.getString( "list", null );
-        var gson = Gson()
 
-        val turnsType = object : TypeToken<ArrayList<StudyRecord>>(){}.type
-         if(json != null) {
-             itemList = gson.fromJson(json, turnsType)
-         }
-        return itemList
-     }
 
-    private fun saveDataSharedPreference( pref : SharedPreferences ,dataList: ArrayList<StudyRecord>){
-        //var pref = getSharedPreferences( "pref", MODE_PRIVATE );
-        var pref_editor = pref.edit();
 
-        //var itemList = ArrayList<StudyRecord>()
-        //itemList.add(StudyRecord(10, "a", "b"))
-        //itemList.add(StudyRecord(100, "aa", "bb"))
 
-        var gson = Gson()
-        var json = gson.toJson(dataList)
-
-        pref_editor.putString("list", json)
-        pref_editor.apply()
-    }
-
-    fun removeDataSharedPreference(pref: SharedPreferences){
-        var pref_editor = pref.edit();
-
-        pref_editor.clear()
-        pref_editor.apply()
-
-        Singleton.studyRecordList = loadDataSharedPreference(Singleton.getSharedPreference())
-    }
 
     private fun finishActivity(activity: Activity, string:String){
         var intent = Intent(applicationContext, activity::class.java)
