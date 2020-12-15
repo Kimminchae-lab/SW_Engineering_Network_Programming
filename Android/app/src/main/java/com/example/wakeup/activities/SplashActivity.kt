@@ -66,7 +66,7 @@ class SplashActivity : AppCompatActivity() {
 
         //RecordWhatStudied().removeDataSharedPreference(Singleton.getSharedPreference())
 
-        Singleton.studyRecordList = RecordWhatStudied().loadDataSharedPreference(Singleton.getSharedPreference())
+        Singleton.studyRecordList = Singleton.loadStudyRecord( applicationContext.resources.getString(R.string.study_record_list))
 
         for (i in 0 until Singleton.studyRecordList.size) {
             Log.d(
@@ -76,6 +76,7 @@ class SplashActivity : AppCompatActivity() {
                         "details = ${Singleton.studyRecordList[i].details}"
             )
         }
+        //Singleton.clearData(applicationContext.resources.getString(R.string.todo_list))
     }
 
     // 앱 실행 후 2초 뒤에 MainActivity로 전환
