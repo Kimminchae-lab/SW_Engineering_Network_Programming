@@ -1,23 +1,44 @@
 var express = require("express");
-var crypto = require("crypto");
-var uuid = require("uuid");
 var mysql = require("mysql");
 var bodyParser = require("body-parser");
+var app = express();
+var path = require("path");
+var router = express.Router();
 
 // Create Connection with MySQL
 var connection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "",
+  password: "1111",
   database: "wakeup",
 });
 
-connection.connect(function (err) {
-  if (err) {
-    console.error("error connecting: " + err.stack);
-    return;
-  }
-  console.log("connected as id " + connection.threadId);
+connection.connect();
+
+router.get("/", function (req, res) {
+  res.sendFile(path.join(__dirname, "../../public/join.html"));
 });
 
-module.exports = connection;
+router.post("/", function (req, res) {
+  var email = req.body.email;
+  var name = req.body.name;
+  var pw = req.body.password;
+
+  var query = connection.query(
+    'insert into user (name, pw, email) values ("' +
+      email +
+      '","' +
+      name +
+      '","' +
+      pw +
+      '")',
+    function (err, rows) {
+      if (err) {
+        throw err;
+      }
+      console.log("Data inserted!");
+    }
+  );
+});
+
+module.exports = router;
