@@ -73,7 +73,7 @@ class SplashActivity : AppCompatActivity() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(Consumer<String>() {
-                    
+                    // accept
                 })
         )
     }
