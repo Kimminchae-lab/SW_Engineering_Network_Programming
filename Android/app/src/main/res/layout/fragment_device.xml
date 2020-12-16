@@ -12,7 +12,7 @@
         android:id="@+id/button_Focus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="앱 사용 제어 "
+        android:text="집중 시작"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
