@@ -3,15 +3,12 @@ package com.example.wakeup.activities
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.WindowManager
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wakeup.R
 import com.example.wakeup.datas.Singleton
-import com.example.wakeup.network.LoginResult
 import com.example.wakeup.network.RetrofitInterface
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.login_dialog.*
 import kotlinx.android.synthetic.main.login_dialog.view.*
@@ -22,6 +19,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import com.example.wakeup.network.RetrofitClient as
 
 class SplashActivity : AppCompatActivity() {
 
@@ -31,12 +29,14 @@ class SplashActivity : AppCompatActivity() {
     var logedIn: Int = 0
     var signedIn: Int = 0
 
+    lateinit var myAPI: RetrofitInterface
+    var compositeDisposable = CompositeDisposable()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-
-
+        var retrofit = RetrofitClient.
         initDatas()
 
 
@@ -93,76 +93,13 @@ class SplashActivity : AppCompatActivity() {
         }, 2000) // 2초 후*/
     }
 
-    private fun handleLoginDialog() {
-        var view = layoutInflater.inflate(R.layout.login_dialog, null)
-        var builder = AlertDialog.Builder(this)
-        builder.setView(view).show()
-
-        // region loginBtn.setOnClickListener
-        view.loginBtn.setOnClickListener {
-            var map: HashMap<String, String> = HashMap()
-
-            map["email"] = view.email_Edit.text.toString()
-            map["password"] = view.pw_Edit.text.toString()
-
-            var call: Call<LoginResult> = retrofitInterface.executeLogin(map)
-
-            call.enqueue(object : Callback<LoginResult> {
-                override fun onResponse(call: Call<LoginResult>, response: Response<LoginResult>) {
-                    if (response.code() == 200) {
-                        // var result = response.body()
-                        logedIn = 1
-                        Toast.makeText(this@SplashActivity, "로그인 성공", Toast.LENGTH_LONG).show()
-                    } else if (response.code() == 404) {
-                        logedIn = 2
-                        Toast.makeText(this@SplashActivity, "Wrong Credentials", Toast.LENGTH_LONG).show()
-                    }
-                }
-
-                override fun onFailure(call: Call<LoginResult>, t: Throwable) {
-                    logedIn = 3
-                    Toast.makeText(this@SplashActivity, t.message, Toast.LENGTH_LONG).show()
-                }
-
-            })
-        }
-        // endregion
+    override fun onStop() {
+        compositeDisposable.clear()
+        super.onStop()
     }
 
-    // region Sign In
-    private fun handleSigninDialog() {
-        var view = layoutInflater.inflate(R.layout.signup_dialog, null)
-        var builder = AlertDialog.Builder(this)
-        builder.setView(view).show()
-
-        view.signupBtn.setOnClickListener {
-            var map: HashMap<String, String> = HashMap()
-
-            map["name"] = view.name_Edit.text.toString()
-            map["email"] = view.signemail_edit.text.toString()
-            map["password"] = view.signpw_edit.text.toString()
-
-            var call: Call<Void> = retrofitInterface.executeSignup(map)
-
-            call.enqueue(object : Callback<Void> {
-                override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    if (response.code() == 200) {
-                        signedIn = 1
-                        Toast.makeText(this@SplashActivity, "Signed up", Toast.LENGTH_LONG).show()
-                    } else if (response.code() == 400) {
-                        signedIn = 2
-                        Toast.makeText(this@SplashActivity, "Already registered", Toast.LENGTH_LONG).show()
-                    }
-                }
-
-                override fun onFailure(call: Call<Void>, t: Throwable) {
-                    signedIn = 3
-                    Toast.makeText(this@SplashActivity, t.message, Toast.LENGTH_LONG).show()
-                }
-            });
-        }
+    override fun onDestroy() {
+        compositeDisposable.clear()
+        super.onDestroy()
     }
-// endregion
-
-
 }
