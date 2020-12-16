@@ -1,10 +1,18 @@
 const express = require("express");
 const app = express();
-const mongoClient = require("mongodb").MongoClient;
-
-const url = "mongodb://127.0.0.1:27017";
 
 app.use(express.json());
+
+var mysql = require("mysql");
+const { connect } = require("./routes");
+var connection = mysql.createConnection({
+  host: "localhost",
+  user: "me",
+  password: "1111",
+  database: "wakeup",
+});
+
+connect.connect();
 
 mongoClient.connect(url, (err, db) => {
   if (err) {
