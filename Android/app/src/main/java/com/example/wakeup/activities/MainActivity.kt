@@ -135,7 +135,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             HomeFragment().updateMyProfile()
         }
         else{
-            Toast.makeText(applicationContext, "에러!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "수정 완료!", Toast.LENGTH_SHORT).show()
         }
     }
 }
