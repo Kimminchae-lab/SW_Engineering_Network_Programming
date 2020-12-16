@@ -1,13 +1,23 @@
 package com.example.wakeup.network
 
-import retrofit2.Call
-import retrofit2.http.Body
+import io.reactivex.Observable
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
 interface RetrofitInterface {
-    @POST("/login")
-    fun executeLogin(@Body map: HashMap<String, String>): Call<LoginResult>
+    @POST("register")
+    @FormUrlEncoded
+    fun registerUser(
+        @Field("email") email: String,
+        @Field("name") name: String,
+        @Field("password") pw: String
+    ): Observable<String>
 
-    @POST("/signup")
-    fun executeSignup(@Body map: HashMap<String, String>): Call<Void>
+    @POST("login")
+    @FormUrlEncoded
+    fun loginUser(
+        @Field("email") email: String,
+        @Field("password") pw: String
+    ): Observable<String>
 }
