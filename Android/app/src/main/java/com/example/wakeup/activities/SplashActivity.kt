@@ -69,7 +69,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun SigninUser(toString: String, toString1: String) {
-            
+
     }
 
     private fun loginUser(email: String, pw: String) {
