@@ -17,13 +17,14 @@ import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.login_dialog.*
+import kotlinx.android.synthetic.main.signup_dialog.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var retrofitInterface: RetrofitInterface
-    private var BASE_URL = "http://10.53.68.1:3000"
+    private var BASE_URL = "http://localhost:3000"
 
     lateinit var myAPI: RetrofitInterface
     var compositeDisposable = CompositeDisposable()
@@ -69,7 +70,24 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun SigninUser(toString: String, toString1: String) {
-
+        signIn.setOnClickListener {
+            compositeDisposable.add(
+                myAPI.registerUser(
+                    name = name_Edit.text.toString(),
+                    email = email_Edit.text.toString(),
+                    pw = pw_Edit.text.toString()
+                )
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(Consumer<String>() {
+                        @Throws(Exception::class)
+                        fun accept(s: String) {
+                            Toast.makeText(this@SplashActivity, "Login Success", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    })
+            )
+        }
     }
 
     private fun loginUser(email: String, pw: String) {
@@ -80,8 +98,9 @@ class SplashActivity : AppCompatActivity() {
                 .subscribe(Consumer<String>() {
                     @Throws(Exception::class)
                     fun accept(s: String) {
-                        if(s.contains(pw))
-                            Toast.makeText(this@SplashActivity, "Login Success", Toast.LENGTH_SHORT).show()
+                        if (s.contains(pw))
+                            Toast.makeText(this@SplashActivity, "Login Success", Toast.LENGTH_SHORT)
+                                .show()
                     }
                 })
         )
