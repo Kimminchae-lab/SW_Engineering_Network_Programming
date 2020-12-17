@@ -54,9 +54,6 @@ app.post("/login/", (req, res, next) => {
       connection.on("error", function (err) {
         console.log("[MySQL ERROR]", err);
       });
-      var sql =
-        "INSERT INTO user (username, userpw, useremail), VALUES (?, ?, ?)";
-      var params = [name, pw, email];
       if (result && result.length) {
         if (result[0] == pw) {
           res.end(JSON.stringify(result[0]));
