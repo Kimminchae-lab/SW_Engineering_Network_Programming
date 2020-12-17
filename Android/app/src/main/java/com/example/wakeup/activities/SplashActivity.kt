@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wakeup.R
 import com.example.wakeup.datas.Singleton
@@ -43,7 +44,7 @@ class SplashActivity : AppCompatActivity() {
             loginUser(email_Edit.text.toString(), pw_Edit.text.toString())
         }
         signIn.setOnClickListener {
-
+            SigninUser(email_Edit.text.toString(), pw_Edit.text.toString())
         }
         retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -67,13 +68,21 @@ class SplashActivity : AppCompatActivity() {
         startLoading()
     }
 
+    private fun SigninUser(toString: String, toString1: String) {
+            
+    }
+
     private fun loginUser(email: String, pw: String) {
         compositeDisposable.add(
             myAPI.loginUser(email, pw)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(Consumer<String>() {
-                    // accept
+                    @Throws(Exception::class)
+                    fun accept(s: String) {
+                        if(s.contains(pw))
+                            Toast.makeText(this@SplashActivity, "Login Success", Toast.LENGTH_SHORT).show()
+                    }
                 })
         )
     }
