@@ -46,6 +46,10 @@ class SplashActivity : AppCompatActivity() {
 
         }
 
+        signIn.setOnClickListener {
+            
+        }
+
         loginBtn.setOnClickListener {
             loginUser(email_Edit.text.toString(), pw_Edit.text.toString())
         }
